@@ -7,6 +7,11 @@ public class UrlKeyPair {
         this.keyWord = "";
     }
 
+    UrlKeyPair(String url, String keyWord) {
+        this.url = url;
+        this.keyWord = keyWord;
+    }
+
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
     }

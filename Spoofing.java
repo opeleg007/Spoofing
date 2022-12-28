@@ -7,10 +7,10 @@ public class Spoofing {
     // UseCase 5: exchanging the "middle name" of the url by the keyword
     // UseCase 6: exchanging between Vowels (a, e, o, u, i)
 
-    private UrlKeyPair findExactMatch(UrlKeyPair [] urlKeyPairs, String suspectedString) {
+    public static UrlKeyPair findExactMatch(UrlKeyPair [] urlKeyPairs, String suspectedString) {
         UrlKeyPair returnedPair = new UrlKeyPair();
         for (int i = 0; i < urlKeyPairs.length; i++) {
-            if (suspectedString.equals(urlKeyPairs[i])) {
+            if (suspectedString.equals(urlKeyPairs[i].url)) {
                 returnedPair = urlKeyPairs[i];
                 break;
             }
@@ -18,9 +18,9 @@ public class Spoofing {
         return returnedPair;
     }
 
-    public UrlKeyPair findSpoofedWebsite(UrlKeyPair [] urlKeyPairs, String suspectedString) {
+    public static UrlKeyPair findSpoofedWebsite(UrlKeyPair [] urlKeyPairs, String suspectedString) {
         UrlKeyPair returnedPair = findExactMatch(urlKeyPairs, suspectedString);
-        if (returnedPair != new UrlKeyPair()) {
+        if (!returnedPair.url.equals("")) {
             returnedPair.setKeyWord("No Spoofing");
             return returnedPair;
         }
@@ -29,12 +29,17 @@ public class Spoofing {
                                                   urlKeyPairs[0].url.length(), suspectedString.length());
         returnedPair = urlKeyPairs[0];
         returnedPair.setKeyWord("Spoofing");
-        for (int i = 0; i < urlKeyPairs.length; i++) {
+//        System.out.println("calculated distance %d for url %s vs spoofed url %s"
+//                .formatted(minDistance, returnedPair.url, suspectedString));
+        for (int i = 1; i < urlKeyPairs.length; i++) {
             int tmpDistance = EditDistance.editDistDP(urlKeyPairs[i].url, suspectedString,
                                                       urlKeyPairs[i].url.length(), suspectedString.length());
+//            System.out.println("calculated distance %d for url %s vs spoofed url %s"
+//                    .formatted(tmpDistance, urlKeyPairs[i].url, suspectedString));
             if (minDistance > tmpDistance) {
                 minDistance = tmpDistance;
-                returnedPair.setUrl(urlKeyPairs[i].url);
+                returnedPair = urlKeyPairs[i];
+                returnedPair.setKeyWord("Spoofing");
             }
         }
         return returnedPair;
