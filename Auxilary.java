@@ -13,7 +13,8 @@ public class Auxilary {
 
     static int editDistDP(String str1, String str2)
     {
-        // Credit to www.GeeksforGeeks.com for the solution
+        /* Credit to www.Geeks for Geeks.com for the solution
+        This code is contributed by Rajat Mishra*/
 
         int m = str1.length();
         int n = str2.length();
@@ -62,7 +63,7 @@ public class Auxilary {
             if (countCharacters.containsKey(tmpChar))
                 countCharacters.put(tmpChar, countCharacters.get(tmpChar) + 1);
             else
-                countCharacters.put(tmpChar, 0);
+                countCharacters.put(tmpChar, 1);
         }
         return  countCharacters;
     }
@@ -82,11 +83,4 @@ public class Auxilary {
         return countCommonChars(countCharactersFirstString, countCharactersSecondString);
     }
 
-    // Driver Code
-    public static void main(String args[])
-    {
-        String str1 = "www.netflix.com";
-        String str2 = "www.netfleex.com";
-        System.out.println(editDistDP(str1, str2));
-    }
-} /*This code is contributed by Rajat Mishra*/
+}

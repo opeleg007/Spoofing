@@ -37,6 +37,24 @@ public class UnitTest {
         return true;
     }
 
+    private static boolean testGetEditDistances(UrlKeyPair [] urlKeyPairs, String suspectedString, int [] distances) {
+        int [] calculatedDistances = Spoofing.getEditDistances(urlKeyPairs, suspectedString);
+        for (int i = 0; i < urlKeyPairs.length; i++) {
+            if (calculatedDistances[i] != distances[i])
+                return false;
+        }
+        return true;
+    }
+
+    private static boolean testUnCommonChars(UrlKeyPair [] urlKeyPairs, String suspectedString, int [] uncommonChars) {
+        int [] calculatedUncommonChars = Spoofing.getUncommonChars(urlKeyPairs, suspectedString);
+        for (int i = 0; i < urlKeyPairs.length; i++) {
+            if (calculatedUncommonChars[i] != uncommonChars[i])
+                return false;
+        }
+        return true;
+    }
+
     private static void simulateEditDistanceTests() {
         String [] urls = {"www.n3tfl!x.com", "www.google.com", "www.apple.com"};
         String [] urls2 = {"www.netflix.com", "www.oogleg.com", "www.apple.com"};
@@ -77,9 +95,46 @@ public class UnitTest {
         }
     }
 
+    private static void simulateEditDistances() {
+        UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("netflix", ""),
+                new UrlKeyPair("google", ""),
+                new UrlKeyPair("apple", "")};
+        String [] spoofedUrls = {"net", "app"};
+        int [][] distances = {{4, 6, 5}, {7, 6, 2}};
+        System.out.println("-------------------------");
+        System.out.println("Testing getEditDistances");
+        System.out.println("-------------------------");
+        for (int i = 0; i < spoofedUrls.length; i++) {
+            if (testGetEditDistances(urlKeyPairs, spoofedUrls[i], distances[i]))
+                System.out.println("SUCCESS");
+            else {
+                System.out.println("FAIL");
+            }
+        }
+    }
+
+    private static void simulateUnCommonChars() {
+        UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("netflix", ""),
+                new UrlKeyPair("google", ""),
+                new UrlKeyPair("apple", "")};
+        String [] spoofedUrls = {"net", "app"};
+        int [][] uncommonChars = {{4, 5, 4}, {7, 6, 2}};
+        System.out.println("-------------------------");
+        System.out.println("Testing unCommonChars");
+        System.out.println("-------------------------");
+        for (int i = 0; i < spoofedUrls.length; i++) {
+            if (testUnCommonChars(urlKeyPairs, spoofedUrls[i], uncommonChars[i]))
+                System.out.println("SUCCESS");
+            else {
+                System.out.println("FAIL");
+            }
+        }
+    }
     public static void main(String[] args) {
         simulateEditDistanceTests();
         simulateExactMatchTests();
         simulateFindSpoofedWebsite();
+        simulateEditDistances();
+        simulateUnCommonChars();
     }
 }

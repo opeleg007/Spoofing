@@ -66,7 +66,7 @@ public class Spoofing {
             2. Extract functions from findSpoofedWebsite - V
             3. Combine resemblance with distance - V
             4. minimum of both is the spoofed Website - V
-            5. Unit test new functions individually
+            5. Unit test new functions individually - V
          */
 
         /* TODO: 29/12/2022
