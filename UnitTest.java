@@ -1,7 +1,7 @@
 public class UnitTest {
 
     private static boolean testEditDistance(String str1, String str2, int dist) {
-        int calculatedDist = EditDistance.editDistDP(str1, str2, str1.length(), str2.length());
+        int calculatedDist = Auxilary.editDistDP(str1, str2);
         if (dist != calculatedDist) {
             System.out.println("FAIL %s, %s expected %d got %d"
                                 .formatted(str1, str2, dist, calculatedDist));
@@ -39,8 +39,8 @@ public class UnitTest {
 
     private static void simulateEditDistanceTests() {
         String [] urls = {"www.n3tfl!x.com", "www.google.com", "www.apple.com"};
-        String [] urls2 = {"www.netflix.com", "www.google.com", "www.apple.com"};
-        int [] distances = {2, 0, 0};
+        String [] urls2 = {"www.netflix.com", "www.oogleg.com", "www.apple.com"};
+        int [] distances = {2, 2, 0};
         System.out.println("-----------------------");
         System.out.println("TESTING editDistDP");
         System.out.println("-----------------------");
@@ -65,8 +65,9 @@ public class UnitTest {
     private static void simulateFindSpoofedWebsite() {
         UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("www.netflix.com", ""),
                 new UrlKeyPair("www.google.com", ""),
-                new UrlKeyPair("www.apple.com", "")};
-        String [] spoofedUrls = {"www.googgggle.com", "www.aplee.com", "www.netfl!x.com"};
+                new UrlKeyPair("www.apple.com", ""),
+                new UrlKeyPair("www.g.com", "")};
+        String [] spoofedUrls = {"www.goooooooooooooooooooggggle.com", "www.apleeeee.com", "www.netfl!x.com"};
         String [] originalWebsites = {"www.google.com", "www.apple.com", "www.netflix.com"};
         System.out.println("-----------------------");
         System.out.println("TESTING findSpoofedWebsite");

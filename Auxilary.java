@@ -1,6 +1,6 @@
-import java.io.*;
+import java.util.HashMap;
 
-public class EditDistance {
+public class Auxilary {
     static int min(int x, int y, int z)
     {
         if (x <= y && x <= z)
@@ -11,9 +11,12 @@ public class EditDistance {
             return z;
     }
 
-    static int editDistDP(String str1, String str2, int m,
-                          int n)
+    static int editDistDP(String str1, String str2)
     {
+        // Credit to www.GeeksforGeeks.com for the solution
+
+        int m = str1.length();
+        int n = str2.length();
         // Create a table to store results of subproblems
         int dp[][] = new int[m + 1][n + 1];
 
@@ -52,12 +55,38 @@ public class EditDistance {
         return dp[m][n];
     }
 
+    static HashMap<Character, Integer> fillCharacterCount(String str) {
+        HashMap<Character, Integer> countCharacters = new HashMap<>();
+        for (int i = 0; i < str.length(); i++) {
+            Character tmpChar = str.charAt(i);
+            if (countCharacters.containsKey(tmpChar))
+                countCharacters.put(tmpChar, countCharacters.get(tmpChar) + 1);
+            else
+                countCharacters.put(tmpChar, 0);
+        }
+        return  countCharacters;
+    }
+
+    static int countCommonChars(HashMap<Character, Integer> first, HashMap<Character, Integer> second) {
+        int commonCharCount = 0;
+        for (Character c: first.keySet()) {
+            if (second.containsKey(c))
+                commonCharCount += Math.min(first.get(c), second.get(c));
+        }
+        return commonCharCount;
+    }
+
+    static int commonChars(String str1, String str2) {
+        HashMap<Character, Integer> countCharactersFirstString = fillCharacterCount(str1);
+        HashMap<Character, Integer> countCharactersSecondString = fillCharacterCount(str2);
+        return countCommonChars(countCharactersFirstString, countCharactersSecondString);
+    }
+
     // Driver Code
     public static void main(String args[])
     {
         String str1 = "www.netflix.com";
         String str2 = "www.netfleex.com";
-        System.out.println(editDistDP(
-                str1, str2, str1.length(), str2.length()));
+        System.out.println(editDistDP(str1, str2));
     }
 } /*This code is contributed by Rajat Mishra*/
