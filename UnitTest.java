@@ -1,7 +1,9 @@
+import java.net.URISyntaxException;
+
 public class UnitTest {
 
     private static boolean testEditDistance(String str1, String str2, int dist) {
-        int calculatedDist = Auxilary.editDistDP(str1, str2);
+        int calculatedDist = Auxiliary.editDistDP(str1, str2);
         if (dist != calculatedDist) {
             System.out.println("FAIL %s, %s expected %d got %d"
                                 .formatted(str1, str2, dist, calculatedDist));
@@ -55,6 +57,12 @@ public class UnitTest {
         return true;
     }
 
+    private static boolean testExtractDomain(String url, String domain) {
+        if (!Auxiliary.extractDomain(url).equals(domain))
+            return false;
+        return true;
+    }
+
     private static void simulateEditDistanceTests() {
         String [] urls = {"www.n3tfl!x.com", "www.google.com", "www.apple.com"};
         String [] urls2 = {"www.netflix.com", "www.oogleg.com", "www.apple.com"};
@@ -68,9 +76,9 @@ public class UnitTest {
     }
 
     private static void simulateExactMatchTests() {
-        UrlKeyPair [] urls = {new UrlKeyPair("www.netflix.com", ""),
-                               new UrlKeyPair("www.google.com", ""),
-                               new UrlKeyPair("www.apple.com", "")};
+        UrlKeyPair [] urls = {new UrlKeyPair("www.netflix.com", "netflix"),
+                               new UrlKeyPair("www.google.com", "google"),
+                               new UrlKeyPair("www.apple.com", "apple")};
         String [] urls2 = {"www.google.com", "www.apple.com", "www.netflix.com"};
         System.out.println("-----------------------");
         System.out.println("TESTING findExactMatch");
@@ -82,9 +90,9 @@ public class UnitTest {
 
     private static void simulateFindSpoofedWebsite() {
         UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("www.netflix.com", ""),
-                new UrlKeyPair("www.google.com", ""),
-                new UrlKeyPair("www.apple.com", ""),
-                new UrlKeyPair("www.g.com", "")};
+                new UrlKeyPair("www.google.com", "google"),
+                new UrlKeyPair("www.apple.com", "apple"),
+                new UrlKeyPair("www.g.com", "google")};
         String [] spoofedUrls = {"www.goooooooooooooooooooggggle.com", "www.apleeeee.com", "www.netfl!x.com"};
         String [] originalWebsites = {"www.google.com", "www.apple.com", "www.netflix.com"};
         System.out.println("-----------------------");
@@ -96,9 +104,9 @@ public class UnitTest {
     }
 
     private static void simulateEditDistances() {
-        UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("netflix", ""),
-                new UrlKeyPair("google", ""),
-                new UrlKeyPair("apple", "")};
+        UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("www.netflix.com", "netflix"),
+                new UrlKeyPair("www.google.com", "google"),
+                new UrlKeyPair("www.apple.com", "apple")};
         String [] spoofedUrls = {"net", "app"};
         int [][] distances = {{4, 6, 5}, {7, 6, 2}};
         System.out.println("-------------------------");
@@ -114,9 +122,9 @@ public class UnitTest {
     }
 
     private static void simulateUnCommonChars() {
-        UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("netflix", ""),
-                new UrlKeyPair("google", ""),
-                new UrlKeyPair("apple", "")};
+        UrlKeyPair [] urlKeyPairs = {new UrlKeyPair("www.netflix.com", "netflix"),
+                new UrlKeyPair("www.google.com", "google"),
+                new UrlKeyPair("www.apple.com", "apple")};
         String [] spoofedUrls = {"net", "app"};
         int [][] uncommonChars = {{4, 5, 4}, {7, 6, 2}};
         System.out.println("-------------------------");
@@ -130,11 +138,24 @@ public class UnitTest {
             }
         }
     }
-    public static void main(String[] args) {
+
+    private static void simulateExtractDomain() {
+        String [] urls = {"www.netflix.com", "www.google.com", "www.apple.com"};
+        String [] domains = {"netflix", "google", "apple"};
+        System.out.println("-------------------------");
+        System.out.println("Testing extractDomain");
+        System.out.println("-------------------------");
+        for (int i = 0; i < urls.length; i++) {
+            System.out.println(testExtractDomain(urls[i], domains[i]) ? "SUCCESS" :
+                    "FAIL %s %s".formatted(urls[i], domains[i]));
+        }
+    }
+    public static void main(String[] args) throws URISyntaxException {
         simulateEditDistanceTests();
         simulateExactMatchTests();
         simulateFindSpoofedWebsite();
         simulateEditDistances();
         simulateUnCommonChars();
+        simulateExtractDomain();
     }
 }

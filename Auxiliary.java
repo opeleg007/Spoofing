@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class Auxilary {
+public class Auxiliary {
     static int min(int x, int y, int z)
     {
         if (x <= y && x <= z)
@@ -54,6 +54,12 @@ public class Auxilary {
         }
 
         return dp[m][n];
+    }
+
+    static String extractDomain(String url) {
+        String domainName = url.startsWith("www.") ? url.substring(4) : url;
+        domainName = domainName.endsWith(".com") ? domainName.substring(0, domainName.length() - 4) : domainName;
+        return domainName;
     }
 
     static HashMap<Character, Integer> fillCharacterCount(String str) {
