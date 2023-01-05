@@ -150,7 +150,8 @@ public class UnitTest {
                     "FAIL %s %s".formatted(urls[i], domains[i]));
         }
     }
-    public static void main(String[] args) throws URISyntaxException {
+
+    public static void main(String[] args) {
         simulateEditDistanceTests();
         simulateExactMatchTests();
         simulateFindSpoofedWebsite();
